@@ -1,0 +1,15 @@
+extend type Query {
+  galleryTags: [GalleryTag!]!
+}
+
+extend type Mutation {
+  addGalleryTag(name: String!): GalleryTag!
+  tagGallery(galleryId: ID!, tagId: ID!): Gallery!
+  untagGallery(galleryId: ID!, tagId: ID!): Gallery!
+}
+
+type GalleryTag {
+  id: ID!
+  name: String!
+  galleries: [Gallery!]!
+}

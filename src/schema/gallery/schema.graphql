@@ -1,0 +1,38 @@
+extend type Query {
+  galleries(
+    page: Int = 1
+    limit: Int
+    sort: GallerySort = CREATED_AT_DESC
+  ): [Gallery!]!
+  gallery(id: ID!): Gallery!
+}
+
+extend type Mutation {
+  addGallery(
+    name: String!
+    description: String
+    imgUrls: [String!]!
+    tags: [String!]!
+  ): Gallery!
+}
+
+enum GallerySort {
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+}
+
+type Gallery {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: String!
+  updatedAt: String!
+  imgs: [Img!]!
+  tags: [GalleryTag!]!
+}
+
+type Img {
+  id: ID!
+  url: String!
+  order: Int
+}

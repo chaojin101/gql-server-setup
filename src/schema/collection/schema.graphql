@@ -1,0 +1,27 @@
+extend type Query {
+  collections(
+    page: Int = 1
+    limit: Int
+    sort: GallerySort = CREATED_AT_DESC
+  ): [Gallery!]!
+  collection(id: ID!): Gallery!
+}
+
+extend type Mutation {
+  addCollection(name: String!, description: String): Collection!
+  updateCollection(
+    id: ID!
+    name: String
+    description: String
+    imgId: [ID!]!
+  ): Collection!
+}
+
+type Collection {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: String
+  updatedAt: String
+  imgs: [Img!]!
+}
