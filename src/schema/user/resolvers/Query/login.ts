@@ -33,7 +33,6 @@ export const login: NonNullable<QueryResolvers["login"]> = async (
     email: user.email,
     name: user.name,
   });
-  _ctx.request.cookieStore?.set("token", token);
   return {
     token,
   };

@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { PORT } from "@/lib/constant";
+import { extractToken, verifyToken } from "@/lib/user/auth";
 import { GraphqlContext } from "@/schema/context";
 import { resolvers } from "@/schema/resolvers.generated";
 import { typeDefs } from "@/schema/typeDefs.generated";
@@ -7,7 +8,6 @@ import { useCookies } from "@whatwg-node/server-plugin-cookies";
 import { GraphQLError } from "graphql";
 import { createSchema, createYoga, maskError } from "graphql-yoga";
 import { createServer } from "http";
-import { verifyToken } from "./lib/user/auth";
 
 const schema = createSchema<GraphqlContext>({
   typeDefs,
@@ -20,11 +20,11 @@ export const yoga = createYoga<GraphqlContext>({
     const ctx: GraphqlContext = {
       db,
     };
-    const token = await request.cookieStore?.get("token");
+    const token = extractToken(request);
     if (!token) {
       return ctx;
     }
-    const tokenPayload = verifyToken(token.value);
+    const tokenPayload = verifyToken(token);
     if (!tokenPayload) {
       return ctx;
     }

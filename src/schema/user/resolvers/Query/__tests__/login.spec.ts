@@ -1,7 +1,6 @@
 import { ERR_INVALID_CREDENTIALS, ERR_USER_NOT_FOUND } from "@/lib/error";
 import { TokenPayload } from "@/lib/type/auth";
 import {
-  extractToken,
   gqlLogin,
   gqlRegister,
   randomEmail,
@@ -14,8 +13,8 @@ describe("login", () => {
     const email = randomEmail();
     const password = randomPassword();
     await gqlRegister(email, password);
-    const { response } = await gqlLogin(email, password);
-    const token = extractToken(response);
+    const { result } = await gqlLogin(email, password);
+    const token = result.data.login.token;
     const tokenPayload = jwt.decode(token) as TokenPayload;
     expect(tokenPayload.email).toEqual(email);
     expect(tokenPayload.name).toEqual(email);

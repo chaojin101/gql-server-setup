@@ -1,12 +1,6 @@
 import { faker } from "@faker-js/faker";
-import setCookieParser from "set-cookie-parser";
 import { executeOperation } from ".";
 import { gql } from "./__generated__";
-
-export const extractToken = (response: Response) => {
-  const cookies = setCookieParser(response.headers.get("Set-Cookie") || "");
-  return cookies.find((cookie) => cookie.name === "token")?.value;
-};
 
 export const gqlRegister = async (
   email: string = randomEmail(),
@@ -47,4 +41,15 @@ export const gqlLogin = async (email: string, password: string) => {
     email,
     password,
   });
+};
+
+export const genToken = async () => {
+  const {
+    result: {
+      data: {
+        register: { token },
+      },
+    },
+  } = await gqlRegister();
+  return token;
 };

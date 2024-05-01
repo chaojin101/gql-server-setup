@@ -49,6 +49,6 @@ export const genHeaders = (token: string = "") => {
   return {
     "Content-Type": "application/json",
     Accept: "application/json",
-    cookie: `token=${token}`,
+    Authorization: `Bearer ${token}`,
   };
 };

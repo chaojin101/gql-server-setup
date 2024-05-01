@@ -1,19 +1,14 @@
 import { ERR_USER_ALREADY_EXISTS } from "@/lib/error";
 import { TokenPayload } from "@/lib/type/auth";
-import {
-  extractToken,
-  gqlRegister,
-  randomEmail,
-  randomPassword,
-} from "@/test-lib/user";
+import { gqlRegister, randomEmail, randomPassword } from "@/test-lib/user";
 import jwt from "jsonwebtoken";
 
 describe("register", () => {
   it("success", async () => {
     const email = randomEmail();
     const password = randomPassword();
-    const { response } = await gqlRegister(email, password);
-    const token = extractToken(response);
+    const { result } = await gqlRegister(email, password);
+    const token = result.data.register.token;
     const tokenPayload = jwt.decode(token) as TokenPayload;
     expect(tokenPayload.email).toEqual(email);
     expect(tokenPayload.name).toEqual(email);

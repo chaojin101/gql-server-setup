@@ -28,3 +28,13 @@ export const verifyToken = (
 ) => {
   return jwt.verify(token, secret, { algorithms: ["HS256"] }) as TokenPayload;
 };
+
+export const extractToken = (req: Request) => {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader) {
+    return "";
+  }
+
+  const token = authHeader.replace("Bearer ", "");
+  return token;
+};
