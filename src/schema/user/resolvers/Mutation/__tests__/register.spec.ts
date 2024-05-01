@@ -13,11 +13,15 @@ describe("register", () => {
     const email = randomEmail();
     const password = randomPassword();
     const { response } = await gqlRegister(email, password);
+    console.log(
+      'response.headers.get("Set-Cookie")',
+      response.headers.get("Set-Cookie"),
+    );
     const token = extractToken(response);
     const tokenPayload = jwt.decode(token) as TokenPayload;
     expect(tokenPayload.email).toEqual(email);
     expect(tokenPayload.name).toEqual(email);
-    expect(tokenPayload.userId).not.toBeNull();
+    expect(tokenPayload.id).not.toBeNull();
   });
   it("already registered user should not be able to register again", async () => {
     const email = randomEmail();

@@ -29,11 +29,11 @@ export const login: NonNullable<QueryResolvers["login"]> = async (
   }
 
   const token = generateToken({
-    userId: user.id,
+    id: user.id,
     email: user.email,
     name: user.name,
   });
-  _ctx.request.cookieStore?.set("Set-Cookie", `token=${token}`);
+  _ctx.request.cookieStore?.set("token", token);
   return {
     token,
   };

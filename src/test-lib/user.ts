@@ -5,7 +5,7 @@ import { gql } from "./__generated__";
 
 export const extractToken = (response: Response) => {
   const cookies = setCookieParser(response.headers.get("Set-Cookie") || "");
-  return cookies[0].value.split("=")[1];
+  return cookies.find((cookie) => cookie.name === "token")?.value;
 };
 
 export const gqlRegister = async (email: string, password: string) => {

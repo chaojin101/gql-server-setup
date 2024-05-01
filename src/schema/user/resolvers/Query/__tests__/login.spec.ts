@@ -19,7 +19,7 @@ describe("login", () => {
     const tokenPayload = jwt.decode(token) as TokenPayload;
     expect(tokenPayload.email).toEqual(email);
     expect(tokenPayload.name).toEqual(email);
-    expect(tokenPayload.userId).not.toBeNull();
+    expect(tokenPayload.id).not.toBeNull();
   });
   it("wrong email", async () => {
     const email = randomEmail();
