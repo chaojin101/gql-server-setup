@@ -13,10 +13,6 @@ describe("register", () => {
     const email = randomEmail();
     const password = randomPassword();
     const { response } = await gqlRegister(email, password);
-    console.log(
-      'response.headers.get("Set-Cookie")',
-      response.headers.get("Set-Cookie"),
-    );
     const token = extractToken(response);
     const tokenPayload = jwt.decode(token) as TokenPayload;
     expect(tokenPayload.email).toEqual(email);
