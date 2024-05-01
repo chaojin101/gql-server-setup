@@ -8,9 +8,12 @@ export const extractToken = (response: Response) => {
   return cookies.find((cookie) => cookie.name === "token")?.value;
 };
 
-export const gqlRegister = async (email: string, password: string) => {
+export const gqlRegister = async (
+  email: string = randomEmail(),
+  password: string = randomPassword(),
+) => {
   const mutation = gql(`
-          mutation Mutation($email: String!, $password: String!) {
+          mutation Register($email: String!, $password: String!) {
             register(email: $email, password: $password) {
               token
             }
@@ -33,7 +36,7 @@ export const randomPassword = () => {
 
 export const gqlLogin = async (email: string, password: string) => {
   const query = gql(`
-    query Query($email: String!, $password: String!) {
+    query Login($email: String!, $password: String!) {
       login(email: $email, password: $password) {
         token
       }
