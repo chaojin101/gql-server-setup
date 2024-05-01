@@ -7,6 +7,7 @@ import { useCookies } from "@whatwg-node/server-plugin-cookies";
 import { GraphQLError } from "graphql";
 import { createSchema, createYoga, maskError } from "graphql-yoga";
 import { createServer } from "http";
+import { verifyToken } from "./lib/user/auth";
 
 const schema = createSchema<GraphqlContext>({
   typeDefs,
@@ -16,9 +17,21 @@ const schema = createSchema<GraphqlContext>({
 export const yoga = createYoga<GraphqlContext>({
   schema,
   context: async ({ request }) => {
-    return {
+    const ctx: GraphqlContext = {
       db,
     };
+    const token = await request.cookieStore?.get("token");
+    if (!token) {
+      return ctx;
+    }
+    const tokenPayload = verifyToken(token.value);
+    if (!tokenPayload) {
+      return ctx;
+    }
+    ctx.user = {
+      ...tokenPayload,
+    };
+    return ctx;
   },
   plugins: [useCookies()],
   maskedErrors: {

@@ -1,9 +1,9 @@
 import { DB } from "@/db";
+import { contextUser } from "@/lib/type/auth";
 import { YogaInitialContext } from "graphql-yoga";
-import { User } from "../types.generated";
 
 export type GraphqlContext = {
-  user?: User;
+  user?: contextUser;
   db: DB;
 };
 
