@@ -22,6 +22,9 @@ export const generateToken = (
   return jwt.sign(payload, secret, { expiresIn, algorithm: "HS256" });
 };
 
-export const verifyToken = (token: string, secret: string) => {
+export const verifyToken = (
+  token: string,
+  secret: string = process.env.JWT_SECRET,
+) => {
   return jwt.verify(token, secret, { algorithms: ["HS256"] }) as TokenPayload;
 };
